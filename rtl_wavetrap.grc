@@ -1,0 +1,676 @@
+options:
+  parameters:
+    author: Muad'Dib
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: rtl_wavetrap
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: WAVETRAP PUSH-BUTTON RF RECORDER
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: center_freq
+  id: variable
+  parameters:
+    comment: ''
+    value: 102.9e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [312, 84.0]
+    rotation: 0
+    state: enabled
+- name: filename
+  id: variable
+  parameters:
+    comment: "creates full path to IQ recording\nand adds timestamp and the \n'note'\
+      \ variable to the filename"
+    value: rootdir+record_file_path+note+"_"+str(int(center_freq))+"Hz_"+str(int(gui_samp_rate))+"sps_"+str(gui_gain)+"dB_"
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1144, 380.0]
+    rotation: 0
+    state: enabled
+- name: gui_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@0:0,0,1,1
+    label: RX Gain
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '1'
+    stop: '49.6'
+    value: '10.0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [192, 12.0]
+    rotation: 0
+    state: true
+- name: gui_samp_rate
+  id: variable_qtgui_chooser
+  parameters:
+    comment: ''
+    gui_hint: tabs@0:0,1,1,1
+    label: SAMPLE RATE
+    label0: 1Msps
+    label1: 5Msps
+    label2: 5Msps
+    label3: 20Msps
+    label4: 40Msps
+    labels: '[''1.00MHz'', ''1.54MHz'', ''1.79MHz'', ''1.92MHz'', ''2.00MHz'', ''2.16MHz'',
+      ''2.56MHz'', ''2.88MHz'', ''3.2MHz'', ''5.0MHz'', ''10.0MHz'', ''15.0MHz'',''20MHz'',
+      ''25.0MHz'', ''30.0MHz'', ''35.0MHz'', ''40.0MHz'', ''45.0MHz'', ''50.0MHz'',
+      ''55.0MHz'']'
+    num_opts: '0'
+    option0: 1e6
+    option1: 5e6
+    option2: 10e6
+    option3: 20e6
+    option4: 40e6
+    options: '[1000000.0, 1536000.0, 1792000.0, 1920000.0, 2000000.0, 2160000.0, 2560000.0,
+      2880000.0, 3200000.0, 5000000.0, 10000000.0, 15000000.0,20000000.0, 25000000.0,
+      30000000.0, 35000000.0, 40000000.0, 45000000.0, 50000000.0, 55000000.0]'
+    orient: Qt.QVBoxLayout
+    type: real
+    value: '2000000.0'
+    widget: combo_box
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 12.0]
+    rotation: 0
+    state: enabled
+- name: note
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    entry_signal: editingFinished
+    gui_hint: tabs@0:1,1,1,2
+    label: RECORDING NOTE (press enter to update)
+    type: string
+    value: RECORDING_NOTE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 12.0]
+    rotation: 0
+    state: enabled
+- name: rec_button
+  id: variable_qtgui_push_button
+  parameters:
+    comment: ''
+    gui_hint: tabs@0:1,3,1,1
+    label: RECORD
+    pressed: '1'
+    released: '0'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [896, 12.0]
+    rotation: 0
+    state: enabled
+- name: record_file_path
+  id: variable
+  parameters:
+    comment: set path to IQ recording directory
+    value: '"JuliaCode/data/"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1152, 276.0]
+    rotation: 0
+    state: enabled
+- name: rootdir
+  id: variable
+  parameters:
+    comment: defaults to your users home directory
+    value: str(os.path.expanduser("~")+"/")
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1152, 172.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: 2e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [312, 12.0]
+    rotation: 0
+    state: enabled
+- name: str_freq
+  id: variable
+  parameters:
+    comment: ''
+    value: str(center_freq)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [320, 156.0]
+    rotation: 0
+    state: enabled
+- name: timestamp
+  id: variable
+  parameters:
+    comment: 'gets system time and
+
+      applies string formatting'
+    value: datetime.fromtimestamp(time.time()).strftime('%Y_%m_%d_%H-%M-%S')
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1344, 380.0]
+    rotation: 0
+    state: enabled
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: filename+"1"+str(datetime.fromtimestamp(time.time()).strftime('%Y_%m_%d_%H-%M-%S'))+".cfile"
+      if rec_button == 1 else "NUL"
+    type: complex
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [552, 268.0]
+    rotation: 0
+    state: enabled
+- name: blocks_file_sink_0_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: filename+"2"+str(datetime.fromtimestamp(time.time()).strftime('%Y_%m_%d_%H-%M-%S'))+".cfile"
+      if rec_button == 1 else "NUL"
+    type: complex
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [568, 412.0]
+    rotation: 0
+    state: enabled
+- name: blocks_msgpair_to_var_0
+  id: blocks_msgpair_to_var
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    target: str_freq
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [168, 720.0]
+    rotation: 180
+    state: disabled
+- name: import_datetime
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: from datetime import datetime
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [112, 260.0]
+    rotation: 0
+    state: enabled
+- name: import_os
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import os
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 208.0]
+    rotation: 0
+    state: true
+- name: import_time
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import time
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 260.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_edit_box_msg_0_0
+  id: qtgui_edit_box_msg
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    gui_hint: tabs@0:1,0,1,1
+    is_pair: 'True'
+    is_static: 'True'
+    key: freq
+    label: Freq
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    value: str_freq
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [456, 664.0]
+    rotation: 180
+    state: enabled
+- name: qtgui_freq_sink_x_0
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '0.05'
+    axislabels: 'True'
+    bw: gui_samp_rate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'False'
+    fc: center_freq
+    fftsize: '2048'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: tabs@0:2,0,5,4
+    label: Relative Gain
+    label1: ''
+    label10: ''''''
+    label2: ''''''
+    label3: ''''''
+    label4: ''''''
+    label5: ''''''
+    label6: ''''''
+    label7: ''''''
+    label8: ''''''
+    label9: ''''''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '1'
+    norm_window: 'False'
+    showports: 'True'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: complex
+    units: dB
+    update_time: '0.05'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: window.WIN_FLATTOP
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [560, 520.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_freq_sink_x_1
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '0.05'
+    axislabels: 'True'
+    bw: gui_samp_rate
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'False'
+    fc: center_freq
+    fftsize: '2048'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: ''
+    label: Relative Gain
+    label1: ''
+    label10: ''''''
+    label2: ''''''
+    label3: ''''''
+    label4: ''''''
+    label5: ''''''
+    label6: ''''''
+    label7: ''''''
+    label8: ''''''
+    label9: ''''''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '""'
+    nconnections: '1'
+    norm_window: 'False'
+    showports: 'False'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: complex
+    units: dB
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: window.WIN_BLACKMAN_hARRIS
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [552, 172.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_ledindicator_0
+  id: qtgui_ledindicator
+  parameters:
+    affinity: ''
+    alias: ''
+    cellalignment: '1'
+    comment: ''
+    gui_hint: tabs@0:0,3,1,1
+    label: '"RED=RECORDING"'
+    maxSize: '40'
+    offColor: green
+    onColor: red
+    position: '2'
+    state: True if rec_button == 1 else False
+    verticalalignment: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1072, 4.0]
+    rotation: 0
+    state: true
+- name: rf_bw
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: RF BANDWITDH
+    short_id: b
+    type: eng_float
+    value: 20e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1216, 564.0]
+    rotation: 0
+    state: enabled
+- name: rf_freq
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: RF FREQUENCY
+    short_id: f
+    type: eng_float
+    value: 1534e6
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [976, 564.0]
+    rotation: 0
+    state: enabled
+- name: rf_gain
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: RF GAIN
+    short_id: g
+    type: eng_float
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1112, 564.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate_0
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: SAMPLE RATE (choose from [1024000.0, 1536000.0, 1792000.0, 1920000.0, 2000000.0,
+      2160000.0, 2560000.0, 2880000.0, 3200000.0, 5000000.0, 10000000.0, 15000000.0,20000000.0,
+      25000000.0, 30000000.0, 35000000.0, 40000000.0, 45000000.0, 50000000.0, 55000000.0])
+    short_id: s
+    type: eng_float
+    value: '1000000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1352, 564.0]
+    rotation: 0
+    state: enabled
+- name: sdrplay3_rspduo_0
+  id: sdrplay3_rspduo
+  parameters:
+    AGC: 'False'
+    AGC0: 'False'
+    AGC1: 'False'
+    affinity: ''
+    agc_set_point: '-30'
+    alias: ''
+    am_notch_filter: 'False'
+    antenna: Tuner 1 50 ohm
+    antenna_both: Both Tuners
+    bandwidth: '0'
+    biasT: 'False'
+    center_freq: center_freq
+    center_freq0: center_freq
+    center_freq1: center_freq
+    comment: ''
+    dab_notch_filter: 'False'
+    dc_offset_mode: 'False'
+    debug_mode: 'False'
+    freq_corr: '0'
+    if_gRdB: '40'
+    if_gRdB0: '50'
+    if_gRdB1: '50'
+    iq_balance_mode: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    output_type: fc32
+    rf_gRLNA: '0'
+    rf_gRLNA0: '0'
+    rf_gRLNA1: '0'
+    rf_gR_mode: dB
+    rf_gRdB: '0'
+    rf_gRdB0: '0'
+    rf_gRdB1: '0'
+    rf_notch_filter: 'False'
+    rsp_selector: ''
+    rspduo_mode: Dual Tuner (diversity reception)
+    sample_rate: samp_rate
+    sample_rate_non_single_tuner: 2000e3
+    sample_sequence_gaps_check: 'False'
+    show_gain_changes: 'False'
+    synchronous_updates: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [112, 336.0]
+    rotation: 0
+    state: enabled
+- name: tabs
+  id: qtgui_tab_widget
+  parameters:
+    alias: ''
+    comment: ''
+    gui_hint: 0,0,7,4
+    label0: Tab 0
+    label1: Tab 1
+    label10: Tab 10
+    label11: Tab 11
+    label12: Tab 12
+    label13: Tab 13
+    label14: Tab 14
+    label15: Tab 15
+    label16: Tab 16
+    label17: Tab 17
+    label18: Tab 18
+    label19: Tab 19
+    label2: Tab 2
+    label3: Tab 3
+    label4: Tab 4
+    label5: Tab 5
+    label6: Tab 6
+    label7: Tab 7
+    label8: Tab 8
+    label9: Tab 9
+    num_tabs: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 116.0]
+    rotation: 0
+    state: true
+
+connections:
+- [qtgui_edit_box_msg_0_0, msg, blocks_msgpair_to_var_0, inpair]
+- [qtgui_edit_box_msg_0_0, msg, qtgui_freq_sink_x_0, freq]
+- [qtgui_freq_sink_x_0, freq, qtgui_edit_box_msg_0_0, val]
+- [sdrplay3_rspduo_0, '0', blocks_file_sink_0_0, '0']
+- [sdrplay3_rspduo_0, '0', qtgui_freq_sink_x_0, '0']
+- [sdrplay3_rspduo_0, '1', blocks_file_sink_0, '0']
+- [sdrplay3_rspduo_0, '1', qtgui_freq_sink_x_1, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.10.0
